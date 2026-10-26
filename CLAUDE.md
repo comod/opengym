@@ -140,3 +140,13 @@ output), `api`, `web` (multi-stage build of `frontend/` served by nginx, which a
 - Don't commit `media/` or `data/` (gitignored).
 - Training-logic changes (progression, 1RM, session read-back) need a unit test in `src/lib`
   beside the code, not just manual clicking-through.
+
+## Nix (Fork)
+
+`flake.nix` baut `frontend` (Vite-Bundle plus `catalogue/media` als `exercise-media/`) und `api` (Node, ohne Coach-Laufzeit)
+und exportiert `nixosModules.default` mit `services.opengym` (API als systemd-Dienst, nginx auf einem lokalen Port, der
+Reverse-Proxy davor setzt TLS und X-Forwarded-*). Rezepte in `justfile`, Werkzeuge aus der devShell (`.envrc`, `use flake`).
+Nach geänderten `package-lock.json` die Hashes in `nix/*.nix` mit `just hashes` erneuern.
+
+Remotes: `origin` ist der Fork (comod/opengym, dorthin wird gepusht), `upstream` das Original DuarteSantos8/openGym zum
+Nachziehen von Updates.
